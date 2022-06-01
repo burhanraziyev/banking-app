@@ -57,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
                     TransactionType.DEPOSIT);
             accountEntity.addTransaction(transactionEntity);
         }
+
         return accountMapper.toAccount(accountRepository.save(accountEntity));
     }
 

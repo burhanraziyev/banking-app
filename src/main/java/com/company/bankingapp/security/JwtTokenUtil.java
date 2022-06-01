@@ -1,6 +1,6 @@
 package com.company.bankingapp.security;
 
-import com.contest.properties.JwtTokenProperties;
+import com.company.bankingapp.properties.JwtTokenProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,10 +28,7 @@ public class JwtTokenUtil {
     }
 
     public Claims getAllClaimsForToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtTokenProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parser().setSigningKey(jwtTokenProperties.getSecretKey()).parseClaimsJws(token).getBody();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -41,29 +38,7 @@ public class JwtTokenUtil {
         Date createdDate = new Date(System.currentTimeMillis());
         Date expirationDate = new Date(System.currentTimeMillis() + jwtTokenProperties.getAccessTokenExpiration());
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, jwtTokenProperties.getSecretKey())
-                .compact();
-    }
-
-    public String refreshToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(ROLES_KEY, userDetails.getAuthorities());
-
-        Date createdDate = new Date(System.currentTimeMillis());
-        Date expirationDate = new Date(System.currentTimeMillis() + jwtTokenProperties.getRefreshTokenExpiration());
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, jwtTokenProperties.getSecretKey())
-                .compact();
+        return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername()).setIssuedAt(createdDate).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, jwtTokenProperties.getSecretKey()).compact();
     }
 
     public String getUsernameFromToken(String token) {
