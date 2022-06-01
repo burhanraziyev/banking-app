@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: banking-app
+
+
+
+# Currency client properties
+currency:
+  apikey: S8mEhqOeIxymWxqgaFu4BqbL64tNhQtZ
